@@ -102,7 +102,7 @@ jobs:
         run: |
           mkdir libjpeg-turbo-build
           cd libjpeg-turbo-build
-          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/skia/third_party/externals/libjpeg-turbo" -G Ninja "${{ github.workspace }}/skia/third_party/externals/libjpeg-turbo"
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/skia/third_party/externals/libjpeg-turbo" -G Ninja "${{ github.workspace }}/skia/third_party/externals/libjpeg-turbo"
           ninja
           ninja install
 
