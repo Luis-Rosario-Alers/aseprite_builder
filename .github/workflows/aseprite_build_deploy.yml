@@ -92,6 +92,20 @@ jobs:
           rm -rf skia/third_party/externals/libjpeg-turbo
           mv libjpeg-turbo-src/libjpeg-turbo-main skia/third_party/externals/libjpeg-turbo
 
+      - name: Setup Visual Studio environment
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      - name: Build libjpeg-turbo
+        shell: cmd
+        run: |
+          mkdir libjpeg-turbo-build
+          cd libjpeg-turbo-build
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/skia/third_party/externals/libjpeg-turbo" -G Ninja "${{ github.workspace }}/skia/third_party/externals/libjpeg-turbo"
+          ninja
+          ninja install
+
       - name: Verify Skia structure
         shell: bash
         run: |
@@ -106,11 +120,6 @@ jobs:
           curl -o Aseprite-source.zip -L "${{ needs.check-version.outputs.download_url }}"
           unzip Aseprite-source.zip -d aseprite
           mkdir -p aseprite/build
-
-      - name: Setup Visual Studio environment
-        uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: x64
 
       - name: Run CMake
         working-directory: aseprite/build
