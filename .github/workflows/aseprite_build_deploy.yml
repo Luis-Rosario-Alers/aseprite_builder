@@ -2,6 +2,11 @@ name: Build and deploy Aseprite
 
 on:
   workflow_dispatch:
+    inputs:
+      force_build:
+        description: 'Force build even if version is cached'
+        required: false
+        default: 'false'
   schedule:
     - cron: '0 0 * * *'
   push:
@@ -47,7 +52,7 @@ jobs:
       - name: Should we start new build?
         id: should_build
         run: |
-          if [ "${{ steps.version_check.outputs.cache-hit }}" == "true" ]; then
+          if [ "${{ steps.version_check.outputs.cache-hit }}" == "true" ] && [ "${{ github.event.inputs.force_build }}" != "true" ]; then
             echo "should_build=false" >> "$GITHUB_OUTPUT"
           else
             echo "should_build=true" >> "$GITHUB_OUTPUT"
@@ -89,12 +94,10 @@ jobs:
           unzip Aseprite-source.zip -d aseprite
           mkdir -p aseprite/build
 
-      - name: Set architecture for produced binary
-        shell: cmd
-        run: call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat" -arch=x64
-
       - name: Setup Visual Studio environment
-        uses: seanmiddleditch/gha-setup-vsdevenv@v1
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
 
       - name: Run CMake
         working-directory: aseprite/build
