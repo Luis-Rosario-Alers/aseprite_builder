@@ -46,8 +46,12 @@ jobs:
 
       - name: Should we start new build?
         id: should_build
-        if: steps.version_check.outputs.cache-hit != 'true'
-        run: echo "should_build=true" >> "$GITHUB_OUTPUT"
+        run: |
+          if [ "${{ steps.version_check.outputs.cache-hit }}" == "true" ]; then
+            echo "should_build=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_build=true" >> "$GITHUB_OUTPUT"
+          fi
 
   build-aseprite:
     name: Build Aseprite
