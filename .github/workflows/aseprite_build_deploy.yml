@@ -78,7 +78,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: skia
-          key: skia-${{ matrix.os }}-m124-libjpeg-v2-cache
+          key: skia-${{ matrix.os }}-m124-libjpeg-v3-cache
 
       - name: Download Skia if not in cache
         if: steps.skia-cache.outputs.cache-hit != 'true'
@@ -87,10 +87,10 @@ jobs:
           curl -o Skia-${{ runner.os }}-Release-X64.zip -L https://github.com/aseprite/skia/releases/download/m124-08a5439a6b/Skia-${{ runner.os }}-Release-X64.zip
           unzip Skia-${{ runner.os }}-Release-X64.zip -d skia
           mkdir -p skia/third_party/externals
-          curl -L https://github.com/libjpeg-turbo/libjpeg-turbo/archive/refs/heads/main.zip -o libjpeg-turbo.zip
+          curl -L --output libjpeg-turbo.zip https://github.com/libjpeg-turbo/libjpeg-turbo/archive/refs/tags/3.0.1.zip
           unzip libjpeg-turbo.zip -d libjpeg-turbo-src
           rm -rf skia/third_party/externals/libjpeg-turbo
-          mv libjpeg-turbo-src/libjpeg-turbo-main skia/third_party/externals/libjpeg-turbo
+          mv libjpeg-turbo-src/libjpeg-turbo-3.0.1 skia/third_party/externals/libjpeg-turbo
 
       - name: Setup Visual Studio environment
         uses: ilammy/msvc-dev-cmd@v1
