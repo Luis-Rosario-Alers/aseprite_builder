@@ -99,10 +99,13 @@ jobs:
         with:
           arch: x64
 
+      - name: Install libjpeg-turbo
+        run: choco install libjpeg-turbo
+
       - name: Run CMake
         working-directory: aseprite/build
         shell: cmd
-        run: cmake -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DCMAKE_IGNORE_PATH="C:/ProgramData/chocolatey/bin/;C:/Strawberry/c/bin/" -DLAF_BACKEND=skia -DSKIA_DIR=../../skia -DSKIA_LIBRARY_DIR=../../skia/out/Release-x64 -G Ninja ..
+        run: cmake -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DCMAKE_IGNORE_PATH="C:/ProgramData/chocolatey/bin/;C:/Strawberry/c/bin/" -DLAF_BACKEND=skia -DSKIA_DIR=../../skia -DSKIA_LIBRARY_DIR=../../skia/out/Release-x64 -DSKIA_LIBRARY=../../skia/out/Release-x64/skia.lib -DUSE_SHARED_JPEGTURBO=OFF -G Ninja ..
 
       - name: Run Ninja
         working-directory: aseprite/build
