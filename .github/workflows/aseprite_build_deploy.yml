@@ -78,7 +78,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: skia
-          key: skia-${{ matrix.os }}-m124-cache
+          key: skia-${{ matrix.os }}-m124-libjpeg-cache
 
       - name: Download Skia if not in cache
         if: steps.skia-cache.outputs.cache-hit != 'true'
@@ -90,6 +90,14 @@ jobs:
           curl -L https://github.com/libjpeg-turbo/libjpeg-turbo/archive/refs/heads/main.zip -o libjpeg-turbo.zip
           unzip libjpeg-turbo.zip -d libjpeg-turbo-src
           mv libjpeg-turbo-src/libjpeg-turbo-main skia/third_party/externals/libjpeg-turbo
+
+      - name: Verify Skia structure
+        shell: bash
+        run: |
+          echo "--- skia/third_party/externals ---"
+          ls skia/third_party/externals || echo "directory not found"
+          echo "--- libjpeg-turbo contents ---"
+          ls skia/third_party/externals/libjpeg-turbo || echo "directory not found"
 
       - name: Download Aseprite release
         shell: bash
