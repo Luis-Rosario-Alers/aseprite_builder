@@ -138,6 +138,14 @@ jobs:
         shell: bash
         run: rm -f gen modp_b64_gen gen.exe gen.exe.manifest modp_b64_gen.exe modp_b64_gen.exe.manifest
 
+      - name: Copy OpenSSL DLL
+        shell: bash
+        run: |
+          cp "C:/Program Files/OpenSSL/bin/libcrypto-3-x64.dll" aseprite/build/bin/ || \
+          cp "C:/Program Files/OpenSSL-Win64/bin/libcrypto-3-x64.dll" aseprite/build/bin/ || \
+          cp "C:/Windows/System32/libcrypto-3-x64.dll" aseprite/build/bin/ || \
+          echo "Could not find libcrypto-3-x64.dll"
+
       - name: Make portable zip
         working-directory: aseprite/build/bin
         shell: bash
