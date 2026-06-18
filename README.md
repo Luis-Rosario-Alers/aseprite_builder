@@ -41,4 +41,4 @@ That is why we recommend you to modify the **os** line to only build for the OS 
 - https://github.com/Insouciant21/action_aseprite => Uses GitHub Actions, but currently has unoptimized binaries and these are publicly available which goes against Aseprite EULA
 
 # Support Aseprite
-Keep supporting Aseprite at https://aseprite.org/#buy
+Keep supporting Aseprite at https://aseprite.org/#buy 
